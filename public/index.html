@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>政大廣電-畢業製作</title>
+		<link rel="stylesheet" type="text/css" href="main.css">
+		<link rel="stylesheet" type="text/css" href="app.css">
+		<link rel="shortcut icon" href="res/favicon.ico">
+	</head>
+	<body>
+		<div class="ui menu fixed inverted our-centered" id="header">
+			<a class="item" href="./">政大廣電-畢業製作</a>
+		</div>
+		<div id="content-block" class ="our-center full-screen" style="padding-top: 11vh;">
+			<div id="svg"></div>
+			<div id="btn our-center" style="margin-top: 3vh;">
+  			<div class="ui button" id="start" onclick="start()">
+    			<i class="play icon"></i>
+    				Start
+  			</div>
+				<div class="ui button" id="stop" onclick="stop()">
+    			<i class="stop icon"></i>
+    				Stop
+  			</div>
+				<button class="ui blue button" id="clear" onclick="myClear()">Clear</button>
+				<button class="ui blue button" id="saveIMG" onclick="saveImg()">Save PNG</button>
+				<button class="ui blue button" id="saveMP3" onclick="saveMP3()">Save MP3</button>
+			</div>
+			<div id="chart" style="margin-top: 3vh;"></div>
+			<canvas id="canvas"></canvas>
+			<div id="pngdataurl"></div>
+		</div>
+
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.4/p5.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.4/addons/p5.sound.js"></script>
+		<script src="http://d3js.org/d3.v3.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+		<script src="main.js"></script>
+		<script src="filesaver.js"></script>
+	</body>
+</html>
