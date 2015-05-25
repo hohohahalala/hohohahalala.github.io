@@ -46,6 +46,8 @@ function draw() {
 //btn function
 function start() {
 	$('#chart svg').remove();
+	$('#canvas').remove();
+	$('#svg').append('<canvas id="canvas" style="width: 0; height: 0; margin-top: 3vh;"></canvas>');
 	soundFile = new p5.SoundFile();
 	recorder.record(soundFile);
 	total_array = []
@@ -54,8 +56,11 @@ function start() {
 
 function stop() {
 	is_start = false;
-	drawSpecgram(total_arr);
+	if (total_arr.length != 0) {
+		drawSpecgram(total_arr);
+	}
 	recorder.stop(); 
+	total_arr = []
 }
 
 function myClear() {
@@ -148,6 +153,7 @@ function drawSpecgram(data) {
 			.each("end", function() {
 				if( --transitions === 0 ) {
 					saveImg();
+					console.log("done!");
         }
 			});
 
