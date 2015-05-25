@@ -59,8 +59,10 @@ function stop() {
 }
 
 function myClear() {
-	$('#chart svg').fadeOut(function(){
-		$('#chart svg').remove();
+	$('#canvas').fadeOut(function(){
+		//$('#chart svg').remove();
+		$('#canvas').remove();
+		$('#svg').append('<canvas id="canvas" style="width: 0; height: 0; margin-top: 3vh;"></canvas>');
 	});
 	total_array = []
 	is_start = false;
@@ -75,12 +77,6 @@ function saveImg() {
 	$('#chart svg').remove();
 	canvg('canvas', html);
 }
-/*
-function saveImg() {
-	var html = $("#chart").html();
-	canvg('canvas', html);
-}
-*/
 
 function drawSpecgram(data) {
 
