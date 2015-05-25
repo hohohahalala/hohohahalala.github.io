@@ -59,7 +59,9 @@ function stop() {
 }
 
 function myClear() {
-	$('#chart svg').remove();
+	$('#chart svg').fadeOut(function(){
+		$('#chart svg').remove();
+	});
 	total_array = []
 	is_start = false;
 }
@@ -69,41 +71,21 @@ function saveMP3() {
 }
 
 function saveImg() {
-  var html = d3.select("svg")
-        .attr("version", 1.1)
-        .attr("xmlns", "http://www.w3.org/2000/svg")
-        .node().parentNode.innerHTML;
- 
-  //var imgsrc = 'data:image/svg+xml;base64,'+ btoa(html);
-  //var img = '<img src="'+imgsrc+'">'; 
-  //d3.select("#svgdataurl").html(img);
- 
- 
-  var canvas = document.querySelector("#canvas")
-			, context = canvas.getContext("2d");
- 
-  var image = new Image;
-  image.src = imgsrc;
-  image.onload = function() {
-	  context.drawImage(image, 0, 0);
-	  var canvasdata = canvas.toDataURL("image/png");
-	  //var pngimg = '<img src="'+canvasdata+'">'; 
-  	//  d3.select("#pngdataurl").html(pngimg);
- 
-	  var a = document.createElement("a");
-	  a.download = "sample.png";
-	  a.href = canvasdata;
-		console.log(canvasdata);
-	  a.click();
-  };
+	var html = $("#chart").html();
+	$('#chart svg').remove();
+	canvg('canvas', html);
 }
-
+/*
+function saveImg() {
+	var html = $("#chart").html();
+	canvg('canvas', html);
+}
+*/
 
 function drawSpecgram(data) {
 
 	data = data.splice(0, data.length);
 	grid = data.length;
-	//console.log(data);
 	d3_data = [];
 	max = []
 
@@ -121,18 +103,14 @@ function drawSpecgram(data) {
 			count++;
 		}
 	}
-
   Hmax = Math.max.apply(null, max);
-
 	data = d3_data;
 	var margin = { top: 0, right: 0, bottom: 0, left: 0 },
-
-
 		width = 1000 - margin.left - margin.right,
-		//height = 600 - margin.top - margin.bottom,
 		gridSize,
 		buckets = 200,
 		colors = ["#ffffd9","#edf8b1","#c7e9b4","#7fcdbb","#41b6c4","#1d91c0","#225ea8","#253494","#081d58"];
+		//height = 600 - margin.top - margin.bottom,
 		
 		if (grid > 90) {
 			gridSize = (width / grid);
@@ -149,7 +127,7 @@ function drawSpecgram(data) {
               .range(colors);
 
     var svg = d3.select("#chart").append("svg")
-      .attr("width", width + margin.left + margin.right)
+      .attr("width", gridSize * grid + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
       .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
@@ -165,9 +143,17 @@ function drawSpecgram(data) {
       .attr("width", gridSize)
       .attr("height", gridSize)
       .style("fill", colors[0]);
-
+		
+		var transitions = 0;
     heatMap.transition().duration(1000)
-      .style("fill", function(d) { return colorScale(d.scale); });
+      .style("fill", function(d) { return colorScale(d.scale); })
+			.each("start", function(){
+				transitions++;})
+			.each("end", function() {
+				if( --transitions === 0 ) {
+					saveImg();
+        }
+			});
 
     heatMap.append("title").text(function(d) { return ("X: " + d.time + "\n"
 													+ "Y: " + d.freq + "\n"

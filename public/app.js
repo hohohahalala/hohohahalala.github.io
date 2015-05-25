@@ -1,5 +1,4 @@
-/*!
- * jQuery JavaScript Library v2.0.3
+$(document).ready(function(){}); v2.0.3
  * http://jquery.com/
  *
  * Includes Sizzle.js
