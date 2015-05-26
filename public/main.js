@@ -5,11 +5,11 @@ if (! window.AudioContext) {
 	window.AudioContext = window.webkitAudioContext;
 }
 
+
 var soundFile, record, mic, fft, total_arr = [], is_start = false;
 
 function setup() {
 	createCanvas(550,400);
-	background(30, 30, 30);
 	noFill();
 
 	mic = new p5.AudioIn();
@@ -22,6 +22,7 @@ function setup() {
 
 	$('#defaultCanvas').css("display", "block").css("margin","0 auto");
 	$('#svg').prepend($('#defaultCanvas'));
+	background(30, 30, 30);
 
 }
 
@@ -77,7 +78,24 @@ function saveMP3() {
 	saveSound(soundFile, 'mySound.wav');
 }
 
+/*
 function saveImg() {
+	var a = document.createElement("a");
+	var canvas = document.getElementById('canvas');
+	var dataURL = canvas.toDataURL('image/png').replace("image/png", "image/octet-stream");
+	a.href = dataURL;
+	a.click();
+}
+*/
+
+var button = document.getElementById('btn-download');
+button.addEventListener('click', function (e) {
+		var canvas = document.getElementById('canvas');
+    var dataURL = canvas.toDataURL('image/png').replace("image/png", "image/octet-stream");
+    button.href = dataURL;
+});
+
+function createImg() {
 	var html = $("#chart").html();
 	$('#chart svg').remove();
 	canvg('canvas', html);
@@ -114,7 +132,7 @@ function drawSpecgram(data) {
 		//height = 600 - margin.top - margin.bottom,
 		
 		if (grid > 90) {
-			gridSize = (width / grid);
+			gridSize = (700 / grid);
 		}
 		else {
 			gridSize = (500 / Hmax);
@@ -152,7 +170,7 @@ function drawSpecgram(data) {
 				transitions++;})
 			.each("end", function() {
 				if( --transitions === 0 ) {
-					saveImg();
+					createImg();
 					console.log("done!");
         }
 			});
